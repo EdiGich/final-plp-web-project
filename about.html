@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Edwin Gichira's Blog</title>
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Light Theme */
+        body.light {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        /* Dark Theme */
+        body.dark {
+            background-color: #333;
+            color: #f4f4f4;
+        }
+
+        header {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        nav {
+            background: #444;
+            padding: 1rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        article {
+            background: #fff;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        article:hover {
+            transform: scale(1.02);
+            transition: transform 0.3s ease;
+        }
+
+        body.dark article {
+            background: #444;
+        }
+
+        h1,
+        h2 {
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        button {
+            padding: 0.5rem;
+            font-size: 1rem;
+            background: #6e8efb;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #a777e3;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background: #444;
+            color: #fff;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            article {
+                padding: 0.5rem;
+            }
+
+            main {
+                margin: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="light">
+    <header>
+        <h1>About Edwin Gichira</h1>
+        <button onclick="toggleTheme()" aria-label="Toggle between light and dark theme">Toggle Theme</button>
+    </header>
+    <nav role="navigation" aria-label="Main navigation">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="post.html">Blog Post</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+    </nav>
+    <main>
+        <article>
+            <h2>About Me</h2>
+            <p>Hi, I'm Edwin Gichira, a passionate web developer. This blog is where I share my journey in learning and
+                building web applications.</p>
+        </article>
+    </main>
+    <footer>
+        <p>© 2025 Edwin Gichira. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Function to toggle between light and dark theme
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('light');
+            body.classList.toggle('dark');
+            localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+        }
+
+        // Load saved theme from localStorage
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.body.classList.remove('light', 'dark');
+            document.body.classList.add(savedTheme);
+        }
+    </script>
+</body>
+
+</html>

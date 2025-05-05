@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edwin Gichira's Blog</title>
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Light Theme */
+        body.light {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        /* Dark Theme */
+        body.dark {
+            background-color: #333;
+            color: #f4f4f4;
+        }
+
+        header {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        nav {
+            background: #444;
+            padding: 1rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        article {
+            background: #fff;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        article:hover {
+            transform: scale(1.02);
+            transition: transform 0.3s ease;
+        }
+
+        body.dark article {
+            background: #444;
+        }
+
+        h1,
+        h2 {
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        input,
+        button {
+            padding: 0.5rem;
+            font-size: 1rem;
+        }
+
+        button {
+            background: #6e8efb;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #a777e3;
+        }
+
+        #comments {
+            margin-top: 1rem;
+        }
+
+        .comment {
+            background: #f0f0f0;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        body.dark .comment {
+            background: #555;
+        }
+
+        .delete-btn {
+            background: #ff4444;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.8rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background: #444;
+            color: #fff;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            article {
+                padding: 0.5rem;
+            }
+
+            main {
+                margin: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="light">
+    <header>
+        <h1>Edwin Gichira's Blog</h1>
+        <button onclick="toggleTheme()" aria-label="Toggle between light and dark theme">Toggle Theme</button>
+    </header>
+    <nav role="navigation" aria-label="Main navigation">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="post.html">Blog Post</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+    </nav>
+    <main>
+        <article>
+            <h2>Welcome to My Blog</h2>
+            <p>This is a sample blog post by Edwin Gichira. Here, I share my thoughts on web development and technology.
+                Check out my <a href="post.html">latest post</a>!</p>
+            <form id="commentForm" aria-label="Comment submission form">
+                <input type="text" id="commentInput" placeholder="Add a comment" required aria-label="Comment input">
+                <button type="submit">Submit</button>
+            </form>
+            <div id="comments" aria-label="User comments"></div>
+        </article>
+    </main>
+    <footer>
+        <p>© 2025 Edwin Gichira. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Function to toggle between light and dark theme
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('light');
+            body.classList.toggle('dark');
+            localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+        }
+
+        // Load saved theme from localStorage
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.body.classList.remove('light', 'dark');
+            document.body.classList.add(savedTheme);
+        }
+
+        // Handle comment form submission
+        const commentForm = document.getElementById('commentForm');
+        const commentInput = document.getElementById('commentInput');
+        const commentsDiv = document.getElementById('comments');
+
+        // Load saved comments from localStorage
+        let comments = JSON.parse(localStorage.getItem('comments')) || [];
+        renderComments();
+
+        commentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const commentText = commentInput.value.trim();
+            if (commentText) {
+                comments.push(commentText);
+                localStorage.setItem('comments', JSON.stringify(comments));
+                renderComments();
+                commentInput.value = '';
+            }
+        });
+
+        // Function to render comments
+        function renderComments() {
+            commentsDiv.innerHTML = '';
+            comments.forEach((comment, index) => {
+                const div = document.createElement('div');
+                div.className = 'comment';
+                div.innerHTML = `
+                    <span>${comment}</span>
+                    <button class="delete-btn" onclick="deleteComment(${index})" aria-label="Delete comment">Delete</button>
+                `;
+                commentsDiv.appendChild(div);
+            });
+        }
+
+        // Function to delete a comment
+        function deleteComment(index) {
+            comments.splice(index, 1);
+            localStorage.setItem('comments', JSON.stringify(comments));
+            renderComments();
+        }
+    </script>
+</body>
+
+</html>
