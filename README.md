@@ -31,7 +31,7 @@ final-plp-web-project/
 ├── index.html        # Home page with blog post and comment system
 ├── post.html         # Sample blog post page
 ├── about.html        # About page with developer info'
-├── styles.css        = Contains the general CSS stylings.
+├── styles.css        # Contains the general CSS stylings.
 └── README.md         # Project documentation
 ```
 
